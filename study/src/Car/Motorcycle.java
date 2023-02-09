@@ -16,13 +16,19 @@ public class Motorcycle extends Car{
 
     @Override
     public void boarding( int boardingPassenger){
-        if (!this.isSeatEmpty){
+        // 좌석이 비었는가?
+        if ( !this.isSeatEmpty ) {
             System.out.println("뒷좌석에 이미 사람이 탑승중입니다.");
+            return;
+        }
+
+        // 자리수보다 많이 탑승하는가?
+        if ( boardingPassenger > this.seatLeft ) {
+            System.out.println("탑승가능인원 초과");
             return;
         }
         this.isSeatEmpty = false;
         super.boarding(boardingPassenger);
-        System.out.println("오토바이 뒷좌석 탑승");
 
     }
 
@@ -32,21 +38,22 @@ public class Motorcycle extends Car{
             this.isSeatEmpty = true;
             super.stopover(stopoverPassenger);
             System.out.println("뒷좌석 인원이 내립니다.");
-        }else {
-            System.out.println("이미 빈 좌석입니다.");
+            return;
         }
+        System.out.println("이미 빈 좌석입니다.");
+
     }
 
     @Override
     public String toString() {
-        return "Motorcycle{" +
-                "isSeatEmpty=" + isSeatEmpty +
-                ", moveDistance=" + moveDistance +
-                ", speed=" + speed +
-                ", distanceLeft=" + distanceLeft +
-                ", name='" + name + '\'' +
-                ", gas=" + gas +
-                ", seatLeft=" + seatLeft +
-                '}';
+        return  "=====================" +
+                "\nMotorcycle" +
+                "\nisSeatEmpty=" + isSeatEmpty +
+                "\nmoveDistance=" + moveDistance +
+                "\nspeed=" + speed +
+                "\ndistanceLeft=" + distanceLeft +
+                "\nname='" + name + '\'' +
+                "\ngas=" + gas +
+                "\nseatLeft=" + seatLeft;
     }
 }

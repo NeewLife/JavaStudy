@@ -116,7 +116,6 @@ public class Car {
             System.out.println("탑승 인원 : " + boardingPassenger + " 명");
             System.out.println("현재 승객 : " + this.passenger + " 명");
             System.out.println("남은 좌석 : " + this.seatLeft);
-            System.out.println("현재 돈 : " + this.money + "원");
     }
 
     public void stopover (int stopoverPassenger){

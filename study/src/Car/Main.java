@@ -22,32 +22,34 @@ public class Main {
         }
 
         bus.stopover(bus.getPassenger());
-        System.out.println(bus);
+        System.out.println(bus.toString());
 
         // 택시
         taxi.boarding(3);           // 고객 탑승
         taxi.boarding(5);           // 고객 초과 탑승
         taxi.increaseSpeed(30);
-        taxi.toString();
+        System.out.println(taxi.toString());
         while(taxi.getGas()>0 && taxi.getDistanceLeft()>0){     // 움직여보기
             taxi.move();
         }
         taxi.decreaseSpeed(30);
         taxi.stopover(taxi.passenger);                               // 고객 전부 하차
         taxi.stopover(4);                               // 빈 좌석인지 확인
-        System.out.println(taxi.toString());;
+        System.out.println(taxi.toString());
 
         // 오토바이
         motorcycle.boarding(1);           // 고객 탑승
         motorcycle.boarding(3);           // 고객 초과 탑승
         motorcycle.increaseSpeed(30);
+        System.out.println(motorcycle.toString());
         while(motorcycle.getGas()>0 && motorcycle.getDistanceLeft()>0){     // 움직여보기
             motorcycle.move();
         }
-        motorcycle.toString();
         motorcycle.decreaseSpeed(30);
         motorcycle.stopover(1);                               // 고객 전부 하차
         motorcycle.stopover(3);                               // 빈 좌석인지 확인
-        motorcycle.toString();
+        System.out.println(bus.toString());
+        System.out.println(taxi.toString());
+        System.out.println(motorcycle.toString());
     }
 }

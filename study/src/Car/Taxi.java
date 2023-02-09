@@ -22,6 +22,10 @@ public class Taxi extends Car{
             return;
         }
         this.isSeatEmpty = false;
+        if (boardingPassenger > this.seatLeft){
+            System.out.println("탑승가능인원 초과");
+            return;
+        }
         super.boarding(boardingPassenger);
     }
 
@@ -29,24 +33,30 @@ public class Taxi extends Car{
     public void stopover (int stopoverPassenger){
         if (!this.isSeatEmpty){
             this.isSeatEmpty = true;
-            this.passenger = 0;
-            this.seatLeft = this.totalSeat;
-            System.out.println("고객이 모두 내립니다.");
-            System.out.println("현재 좌석수 : " + this.seatLeft);
-        }else {
-            System.out.println("이미 빈 좌석입니다.");
+            super.stopover(this.passenger);
+            this.money += ( 10 * this.moveDistance ) + 4500;    // 하차할 때 요금지불 = 거리당 10원 + 기본요금
+            System.out.println("현재 금액 : " + this.money + "(+" +  ( 10 * this.moveDistance + 4500)  + ")");
+            return;
         }
+        System.out.println("이미 빈 좌석입니다.");
+
     }
 
     @Override
     public String toString() {
-        return "Taxi{" +
-                "totalSeat=" + totalSeat +
-                ", isSeatEmpty=" + isSeatEmpty +
-                ", moveDistance=" + moveDistance +
-                ", wheels=" + Arrays.toString(wheels) +
-                ", money=" + money +
-                ", name='" + name + '\'' +
-                '}';
+        return "=====================" +
+                "\nTaxi" +
+                "\ntotalSeat=" + totalSeat +
+                "\nisSeatEmpty=" + isSeatEmpty +
+                "\nmoveDistance=" + moveDistance +
+                "\nspeed=" + speed +
+                "\nwheels=" + Arrays.toString(wheels) +
+                "\nmoney=" + money +
+                "\ndistanceLeft=" + distanceLeft +
+                "\nname='" + name + '\'' +
+                "\npassenger=" + passenger +
+                "\ngas=" + gas +
+                "\ntotalSeat=" + totalSeat +
+                "\nseatLeft=" + seatLeft ;
     }
 }
