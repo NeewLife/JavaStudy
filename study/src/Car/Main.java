@@ -6,9 +6,29 @@ public class Main {
         Tire[] twoWheels = { new Tire(95), new Tire(90)};
         Tire[] fourWheels = { new Tire(80), new Tire(100), new Tire(90), new Tire(45)};
 
-        Bus bus = new Bus("17번 버스", 5, 90, 400,25, fourWheels);
-        Taxi taxi = new Taxi("서울택시", 0, 100, 500, fourWheels);
-        Motorcycle motorcycle = new Motorcycle("거북선", 0,100, 500, 1, twoWheels);
+        Bus bus = new Bus("17번 버스", 5, 90, 400, new Tire[] { new Tire(80), new Tire(100), new Tire(90), new Tire(45)},
+                          0,0, 45);
+        Taxi taxi = new Taxi("서울택시", 0, 100, 500, new Tire[] { new Tire(80), new Tire(100), new Tire(90), new Tire(45)},0,
+                             0, 4);
+        Motorcycle motorcycle = new Motorcycle("거북선", 0,100, 500, new Tire[] { new Tire(95), new Tire(90)},0, 0, 2);
+
+
+        Car[] cars = {
+                new Bus("17번 버스", 5, 90, 400, new Tire[] { new Tire(80), new Tire(100), new Tire(90), new Tire(45)},
+                        0,0, 45),
+                new Taxi("서울택시", 0, 100, 500, new Tire[] { new Tire(80), new Tire(100), new Tire(90), new Tire(45)},0,
+                        0,4),
+                new Motorcycle("거북선", 0,100, 500, new Tire[] { new Tire(95), new Tire(90)},0, 0, 2),
+                new Motorcycle("호랑이", 0,100, 500, new Tire[] { new Tire(95), new Tire(90)},0, 0, 2)
+        };
+
+        for(int i = 0; i < cars.length; i++){
+            cars[i].move();
+            if (cars[i] instanceof Motorcycle motorcycle1){
+                motorcycle1.booster();
+                System.out.println(motorcycle1.name + "이(가) 부스터를 사용");
+            }
+        }
 
         // 버스
         bus.boarding(10);

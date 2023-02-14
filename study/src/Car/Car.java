@@ -1,17 +1,29 @@
 package Car;
 
-public class Car {
-    int moveDistance ;
-    int speed;
-    Tire[] wheels;
-    int money;
-    int distanceLeft;
+public abstract class Car {
+    // 추상화한 공통 변수
     String name;
     int passenger;
     int gas;
+    int distanceLeft;
+    Tire[] wheels;
+    int speed;
+    int moveDistance ;
     int totalSeat;
     int seatLeft;
 
+    public Car(String name, int passenger, int gas, int distanceLeft, Tire[] wheels, int speed, int moveDistance
+              , int totalSeat){
+        this.name = name;
+        this.passenger = passenger;
+        this.gas = gas;
+        this.distanceLeft = distanceLeft;
+        this.wheels = wheels;
+        this.speed = speed;
+        this.moveDistance = moveDistance;
+        this.totalSeat = totalSeat;
+        this.seatLeft = totalSeat - passenger;
+    }
 
     public int getDistanceLeft() {
         return distanceLeft;
@@ -37,30 +49,11 @@ public class Car {
         this.gas = gas;
     }
 
-    public int getseatLeft() {
-        return seatLeft;
-    }
-
-    public void setseatLeft(int seatLeft) {
-        this.seatLeft = seatLeft;
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
-    }
-
-
-
-
-
     public void increaseSpeed ( int speed){
         this.speed += speed;
         System.out.println("현재 속도 : " + this.speed + " km/h");
     }
+
     public void decreaseSpeed (int speed){
         this.speed -= speed;
         if(this.speed != 0){
@@ -68,73 +61,47 @@ public class Car {
         }
     }
 
-    public int move(){
+    protected void dcrWheelsDurability(int currentSpeed){
         int i = 0;
         while (i < this.wheels.length){
-                boolean change = wheels[i].isTireChange((int)(this.speed*0.3));
-                wheels[i].showDurability(i);
-                if (change){
-                    System.out.println(wheels[i]);
-                    wheels[i] = new Tire(100);
-                    System.out.println(wheels[i]);
-                    System.out.println(i + "번째 타이어 교체완료");
-                }
-                i++;
+            boolean change = wheels[i].isTireChange((int)(currentSpeed*0.3));
+            wheels[i].showDurability(i);
+            if (change){
+                System.out.println(wheels[i]);
+                wheels[i] = new Tire(100);
+                System.out.println(wheels[i]);
+                System.out.println(i + "번째 타이어 교체완료");
+            }
+            i++;
         }
+    }
 
-//        if( <= 0){
-//            System.out.println("바퀴의 내구도가 부족합니다..");
-//            System.out.println("카센타로 이동합니다.");
-//        }
-        this.gas -= this.speed*0.3;
-        this.moveDistance += this.speed;
-        this.distanceLeft -= this.speed;
-        if (this.distanceLeft < 0){
-            this.distanceLeft = 0;
-
-        }
+    public void gasStation(){
+        System.out.println("기름이 모자랍니다");
         System.out.println("남은 거리 : " + this.distanceLeft + "km");
+        System.out.println("Gas 잔량 : " + this.gas);
+        System.out.println("=============================");
+        System.out.println("주유소로 이동합니다.");
+        System.out.println("'가득이요'");
+        this.gas = 100;
+        System.out.println("주유소에서 나옵니다.");
         System.out.println("Gas 잔량 : " + this.gas + "%");
-        if (this.gas<10){
-            System.out.println("기름이 모자랍니다");
-            System.out.println("남은 거리 : " + this.distanceLeft + "km");
-            System.out.println("Gas 잔량 : " + this.gas);
-            System.out.println("=============================");
-            System.out.println("주유소로 이동합니다.");
-            System.out.println("'가득이요'");
-            this.gas = 100;
-            System.out.println("주유소에서 나옵니다.");
-            System.out.println("Gas 잔량 : " + this.gas + "%");
-        }
-
-        return this.distanceLeft;
     }
 
-    public void boarding ( int boardingPassenger){
-            this.passenger += boardingPassenger;
-            this.seatLeft -= boardingPassenger;
-            System.out.println("탑승 인원 : " + boardingPassenger + " 명");
-            System.out.println("현재 승객 : " + this.passenger + " 명");
-            System.out.println("남은 좌석 : " + this.seatLeft);
-    }
+    public abstract int move();
 
-    public void stopover (int stopoverPassenger){
-//        if (this.passenger <= 0) {
-//            System.out.println("내릴 승객이 없습니다");
-//        } else if (this.passenger - stopoverPassenger < 0) {
-//            System.out.println(this.passenger + "명이 하차합니다");
-//            this.passenger = 0;
-//            this.seatLeft = totalSeat;
-//            System.out.println("현재 승객 : " + this.passenger + " 명");
-//            System.out.println("남은 좌석 : " + this.seatLeft);
-//        } else{
-            System.out.println(stopoverPassenger + "명이 하차합니다");
-            this.passenger -= stopoverPassenger;
-            this.seatLeft += stopoverPassenger;
-            System.out.println("현재 승객 : " + this.passenger + " 명");
-            System.out.println("남은 좌석 : " + this.seatLeft);
-//        }
+    /*
+    코드의 길이적 관점이 아니라 중요도의 관점에서 차이가 크다.
+    만약 boarding() 함수를 부모 클래스로 공통적으로 빼고 자식 클래스에서 상속받으면
+    자식코드의 길이는 반복된걸 super로 호출 하면 되니까 자식코드는 줄어들겠지만 boarding() 메서드의 중요도가 굉장히 떨어지게 된다.
+    지금은 예제의 크기가 작아서 중요도를 판별하기 힘들지만
+    boarding()은 Car의 필수요소인데 gasStation() 은 어찌보면 필수적이지 않을수도 있다고 칠 때,
+    boarding()과 gasStation()의 중요도가 동급이 되어버린다. 현실은 boarding()이 훨씬 중요한데.
+    그걸 막기위해서 boarding()을 추상 메서드로 지정하고
+    귀찮더라도, 길더라도 자식코드에 하나하나 원래 boarding() 메서드의 코드 추가해야됨
+    stopover() 도 마찬가지다.
+    */
+    public abstract void boarding ( int boardingPassenger);
 
-    }
-
+    public abstract void stopover (int stopoverPassenger);
 }
